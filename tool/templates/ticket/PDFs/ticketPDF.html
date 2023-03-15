@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+<section class="pdf_design container-fluid ">
+    <div class="inner_pdf_design w-100">
+        <div class="logo col-2"> 
+            <div class="img"></div>
+        </div>
+        <div class="name_top col-7 text-center text-secondary">
+            <h5>MUKHYA MANTRI SLUM SWASTHYA YOJANA</h5>
+            <p>Query Ticket List</p>
+        </div>
+        <div class="date_range col-3">
+            <p>Print by : <span>{{first_name}} {{last_name}}</span></p>
+        </div>
+    </div>
+</section>
+<section class="pdf_dates container-fluid mt-3">
+    <div class="inner_pdf_dates w-100 row justify-content-center align-items-center">
+        <div class="col-4 text-left text-secondary"> 
+            <h6>From : <span>{{current_date}}</span></h6>
+        </div>
+        <div class="col-4 text-center text-secondary">
+            <h6>To : <span>{{current_date}}</span></h6>
+        </div>
+        <div class="col-4 text-right text-secondary">
+            <h6>Print Date: <span>{{current_date}}</span></h6>
+        </div>
+    </div>
+</section>
+<div class="pdf-table table-responsive  ">
+    <table class="table table-striped table-bordered text-center">
+        <thead>
+            <tr>
+                <th scope="col"><h6>Ticket No.</h6></th>
+                <th scope="col"><h6>Name</h6></th>
+                <th scope="col"><h6>Contact</h6></th>
+                <th scope="col"><h6>Description</h6></th>
+                <th scope="col"><h6>Ticket Creation Date</h6></th>
+                <th scope="col"><h6>Ticket Updatation Date</h6></th>
+                <th scope="col"><h6>Status</h6></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <th scope="row">{{ticket.id}}</th>
+                <td>{{ticket.first_name}} {{ticket.last_name}}</td>
+                <td>{{ticket.contact}}</td>
+                <td>{{ticket.description}}</td>
+                <td>{{ticket.created}}</td>
+                <td>{{ticket.updated}}</td>
+                <td>{{ticket.get_status_display}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<footer class="footer_section container">
+    <div class="inner_footer ">
+        <h6> A Product By</h6>
+        <div class="gloitel_logo"></div>  
+    </div>    
+</footer>
+{% endblock content%}

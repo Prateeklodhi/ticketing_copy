@@ -1,0 +1,10 @@
+{% extends 'ticket/base.html' %}
+{% load static %}
+{% block title %}
+    AMP Register
+{% endblock title %}
+{% block content %}
+    <div class="row">
+        {{form.as_p}}
+    </div>
+{% endblock content %}

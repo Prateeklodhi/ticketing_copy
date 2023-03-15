@@ -1,0 +1,43 @@
+{% block content %}
+<div id="main_chart" style="width: 100%;height:450px;"></div>
+<input type="hidden" id="total-ticket" value="{{total_ticket}}">
+<input type="hidden" id="ticket-open" value="{{ticket_open}}">
+<input type="hidden" id="ticket-resolved" value="{{ticket_resolved}}">
+<input type="hidden" id="ticket-reopened" value="{{ticket_reopened}}">
+<input type="hidden" id="ticket-closed" value="{{ticket_closed}}">
+<input type="hidden" id="nidan-tickets" value="{{nidan_tickets}}">
+<input type="hidden" id="nidan-pending" value="{{nidan_pending}}">
+<input type="hidden" id="nidan-solved" value="{{nidan_solved}}">
+
+<script type="text/javascript">
+let totalcount = parseInt(document.getElementById('total-ticket').value);
+let ticketopen = parseInt(document.getElementById('ticket-open').value);
+let ticketresolved = parseInt(document.getElementById('ticket-resolved').value);
+let ticketreopened = parseInt(document.getElementById('ticket-reopened').value);
+let ticketclosed = parseInt(document.getElementById('ticket-closed').value);
+let nidantickets = parseInt(document.getElementById('nidan-tickets').value);
+let nidanpending = parseInt(document.getElementById('nidan-pending').value);
+let nidansolved = parseInt(document.getElementById('nidan-solved').value);
+var chartDom = document.getElementById('main_chart');
+var myChart = echarts.init(chartDom);
+var option;
+
+option = {
+  xAxis: {
+    type: 'category',
+    data: ['Total', 'Open', 'Resolved', 'Reopen', 'Closed','Nidan Tickets','Nidan Solved','Nidan Pending']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data: [totalcount,ticketopen,ticketresolved,ticketreopened,ticketclosed,nidantickets,nidansolved,nidanpending],
+      type: 'bar'
+    }
+  ]
+};
+
+option && myChart.setOption(option);
+</script>
+{% endblock %}

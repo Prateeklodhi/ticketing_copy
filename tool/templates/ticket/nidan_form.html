@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Nidan Data
+{% endblock title %}
+{% block content %}
+{% include 'ticket\messages.html'%}
+<div class="row">
+    <div class="col">
+        <form action="" method='post' class="update_form">
+            {% csrf_token %}
+            <div class="row mt-3">
+                <div class="col-6">
+                        <label> Docket Number</label>
+                    {{nidan_instance.docket_number}}
+                    <br>
+                </div>
+                <div class="col-6">
+                    <label>Citizen Name</label>
+                    {{nidan_instance.citizen_name}}
+                    <br>
+                </div>
+            </div>
+            <br>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <label>Phone Number</label>
+                    {{nidan_instance.phone}}
+                    <br>
+                </div>
+                <div class="col-6">
+                    <label>Address</label>
+                        {{nidan_instance.address}}
+                        <br>
+                </div>
+            </div>
+            <br>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <label>Email</label>
+                        {{nidan_instance.email}}
+                        <br>
+                </div>
+                <div class="col-6">
+                    <label>Municipality</label>
+                       {{nidan_instance.municipality}}
+                        <br>
+                </div>
+            </div>
+            <br>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <label>Section</label>
+                       {{nidan_instance.section}}
+                        <br>
+                </div>
+                <div class="col-6">
+                    <label>Message</label>
+                       {{nidan_instance.message}}
+                        <br>
+                </div>
+            </div>
+            <br>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <label>Subsection</label>
+                       {{nidan_instance.subsection}}
+                        <br>
+                </div>
+                <div class="col-6">
+                    <label>Status</label>
+                        {{nidan_form.status}}
+                        <br>
+                </div>
+            </div>
+            <br>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <label>Grievance Remark</label>
+                        {{nidan_instance.grievance_remark}}
+                        <br>
+                </div>
+                <div class="col-6">
+                    <label for="">Remakrs</label>
+                    {{nidan_form.remark}}
+                </div>
+            </div>
+            <br>
+            <button class="btn-outline-primary btn" type="submit">Submit</button>
+            <a href="{% url 'api_nidan' %}" class="btn btn-outline-warning">Cancel</a>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

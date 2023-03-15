@@ -1,0 +1,65 @@
+{% block content %}
+<div id="main_piechart" style="width:100%;height:450px;"></div>
+<input type="hidden" id="total-ticket" value="{{total_ticket}}">
+<input type="hidden" id="ticket-open" value="{{ticket_open}}">
+<input type="hidden" id="ticket-resolved" value="{{ticket_resolved}}">
+<input type="hidden" id="ticket-reopened" value="{{ticket_reopened}}">
+<input type="hidden" id="ticket-closed" value="{{ticket_closed}}">
+<input type="hidden" id="nidan-tickets" value="{{nidan_tickets}}">
+<input type="hidden" id="nidan-pending" value="{{nidan_pending}}">
+<input type="hidden" id="nidan-solved" value="{{nidan_solved}}">
+
+<script type="text/javascript">
+var chartDom = document.getElementById('main_piechart');
+var myChart = echarts.init(chartDom);
+var option;
+option = {
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    top: '5%',
+    left: 'center'
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: ['40%', '70%'],
+      avoidLabelOverlap: false,
+      itemStyle: {
+        borderRadius: 10,
+        borderColor: '#fff',
+        borderWidth: 2
+      },
+      label: {
+        show: false,
+        position: 'center'
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: 40,
+          fontWeight: 'bold'
+        }
+      },
+      labelLine: {
+        show: false
+      },
+      data: [
+        { value: totalcount, name: 'Total Count' },
+        { value: ticketopen, name: 'Open Tickets' },
+        { value: ticketresolved, name: 'Resolved Tickets' },
+        { value: ticketreopened, name: 'Reopened Tickets' },
+        { value: ticketclosed, name: 'Closed Tickets' },
+        { value: nidantickets, name: 'Nidan Tickets' },
+        { value: nidansolved, name: 'Nidan Solved' },
+        { value: nidanpending, name: 'Nidan Pending' },
+      ]
+    }
+  ]
+};
+
+option && myChart.setOption(option);
+</script>
+{% endblock %}

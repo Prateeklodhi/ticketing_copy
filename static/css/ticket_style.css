@@ -1,0 +1,208 @@
+body
+{
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ========== form Style ==============================   */
+
+.update_form label{
+    padding: 0;
+    margin: 0;
+    width: 50%;
+    height: 20px !important;
+}
+.update_form input {
+    padding: 0;
+    width: 100%;
+    margin: 0;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid;
+    border-color: rgba(0, 0, 0, 0.308);
+    color: rgb(1, 1, 83);
+}
+.update_form textarea
+{
+    outline: none;
+    border: none;
+    border-bottom: 1px solid;
+    width: 100%;   
+    color: rgb(1, 1, 83); 
+}
+.update_form select
+{
+    width: 200px;
+    color: rgb(1, 1, 83);
+}
+
+.message.hide
+{
+    display: none !important;
+}
+
+/* ---------------------chart css---------------- */
+
+.inner_chart
+{
+    border-left: 1px solid #0e0e0e;
+    border-bottom: 1px solid #0e0e0e;
+    margin-top: 50px;
+}
+.inner_chart::before
+{
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 120%;
+    bottom: 0;
+    left: 0;    
+    opacity: 0.5;
+    background:url('../images/chartbg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    backface-visibility: unset;
+}
+.bar_chart
+{
+    display: flex;
+    align-items: center;    
+    padding-left: 100px;
+    height: 300px;
+    position: relative;    
+}
+
+.Total_details
+{
+    position: absolute;
+    left: 30px;
+    top: -60px;
+    width: 50%;
+    height: 100px;
+    z-index: 99;
+}
+.single_chart
+{    
+    margin: 0;
+    position: absolute;    
+    /* bottom: 0; */
+    height: 80%;
+    bottom: -8px;
+    width: 30px;
+    height: calc(var(--i)*1%);
+}
+.single_chart::before
+{
+    
+    position: absolute;
+    content: '';
+    left: 0;
+    bottom: 0;
+    height: calc(var(--i)*1%);
+    width: 100%;
+}
+.single_chart span
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.single_chart:nth-child(1)
+{
+    background: rgb(36, 23, 94);
+    left: 50px;
+}
+
+
+.single_chart:nth-child(2)
+{
+    left: 120px;
+    background: rgb(3, 128, 133);
+    
+}
+
+.single_chart:nth-child(3)
+{
+    background: rgb(96, 141, 238);    
+    left:190px;
+}
+
+.single_chart:nth-child(4)
+{
+    /* background: rgb(2, 99, 2); */
+    background: rgb(6, 145, 238);
+    left: 260px;
+}
+
+.single_chart:nth-child(5)
+{
+    left: 330px;    
+    background: rgb(32, 54, 179);
+}
+.single_chart>p,.single_chart>h6{
+    writing-mode: vertical-lr ;
+    transform-origin: left;
+    transform: rotate(180deg);    
+    position: absolute;
+     
+}
+.single_chart>h6
+{
+    top: 105%;
+    left: 30%;   
+    height: 150px;
+    text-align: right;
+    margin-top: 10px;
+    left: -50%;   
+    height: 10px;
+    text-align: left;
+}
+
+.single_color_box
+{
+     text-align: left;
+     display: flex;
+     align-items: center;
+}
+
+.single_color_box span{
+    
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background: red;
+}
+.single_color_box p{
+    display: flex;
+    align-items: center;
+    height: 30px;
+    margin: 0;
+    padding-left: 5px;
+}
+
+
+.single_color_box:nth-child(1) span
+{
+    background: rgb(36, 23, 94);
+}
+
+
+.single_color_box:nth-child(2) span
+{
+    background: rgb(3, 128, 133);
+    
+}
+
+.single_color_box:nth-child(3) span
+{
+    background: rgb(96, 141, 238);
+}
+.single_color_box:nth-child(4) span
+{
+    background: rgb(6, 145, 238);
+}
+.single_color_box:nth-child(5) span
+{
+    background: rgb(32, 54, 179);
+}

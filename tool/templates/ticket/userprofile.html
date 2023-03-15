@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Edit Your Profile
+{% endblock title %}
+
+{% block content %}
+{% include 'ticket\messages.html' %}
+<br>
+<div class="row">
+    <div class="col-3">
+        <div class="card">
+            <div class="card-header">
+                <h3>{{request.user}}</h3>
+            </div>
+
+            <div class="card-body">
+                <div class="text-center">
+                    <img 
+                    {% if request.user.ticket_operator.profile_pic %} 
+                    src="{{request.user.ticket_operator.profile_pic.url}}"
+                    {% else %} 
+                    src="{% static 'images/profile.png' %}" 
+                    {% endif %}
+                    alt="{{form.user.operator.first_name}}" 
+                    style="width: 200px;height: 200px; border-radius: 50%;
+                    background-size: cover;
+                    background-position: center;">
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="card">
+            <div class="card-header">
+                <h3> Profile Details:</h3>
+            </div>
+            <div class="card-body">
+                <form action="" method="post" class="form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <input type="submit" value="Save Profile" class="btn btn-outline-primary ">
+                    <a href="{% url 'index' %}" class="btn btn-outline-danger ">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

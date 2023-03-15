@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %}
+Ticket Details
+{% endblock title %}
+{% block content %}
+{% if ticket_form.errors %}
+
+<div class="alert alert-warning d-flex align-items-center" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:">
+        <use xlink:href="#exclamation-triangle-fill" />
+    </svg>
+    <div>
+        <p>Something went wrong please check the following fields:</p>
+        <ul style="text-decoration: none;">
+            {% for error in ticket_form.errors %}
+            <span class="">
+                <li>{{error}}</li>
+            </span>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+<div class="create-ticket-main">
+    <div class="ticketHeader text-center mt-3">
+        <h3>Add Ticket</h3>
+    </div>
+    <div class="row">
+        <form action="" method="Post" class="col mt-2 update_form">
+            <div class="row mt-3">
+                <div class="col-12 col-lg-6 mt-3 ">
+                    <label for="{{ticket_form.first_name.is_for_label}}" class="col-6">
+                        {{ticket_form.first_name.label_tag}}
+                    </label>
+                    {{ticket_form.first_name}}
+                    <br>
+                </div>
+                <div class="col-lg-6 col-12 mt-3 ">
+                    <label for="{{ticket_form.first_name.is_for_label}}" class="col-6">
+                        {{ticket_form.last_name.label_tag}}
+                    </label>
+                    {{ticket_form.last_name}}
+                    <br>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="mt-3 col-lg-6 col-12">
+                    <label for="{{ticket_form.first_name.is_for_label}}" class="col-6">
+                        {{ticket_form.contact.label_tag}}
+                    </label>
+                    {{ticket_form.contact}}
+                    <br>
+
+                </div>
+                <div class="col-lg-6 col-12 mt-3">
+                    <label for="{{ticket_form.title.is_for_label}}">
+                        {{ticket_form.title.label_tag}}
+                    </label>
+                    {{ticket_form.title}}
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-6 col-12 mt-3 ">
+                    <label for="{{ticket_form.status.is_for_label}}" class="col-6">
+                        {{ticket_form.status.label_tag}}
+                    </label>
+                    {{ticket_form.status}}
+                </div>
+                <div class="col-lg-6 col-12 mt-3">
+                    <label for="{{ticket_form.priority.is_for_label}}">
+                        {{ticket_form.priority.label_tag}}
+                    </label>
+                    {{ticket_form.priority}}
+                </div>
+
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label for="{{ticket_form.description.is_for_label}}">
+                        {{ticket_form.description.label_tag}}
+                    </label>
+                    {{ticket_form.description}}
+                </div>
+
+            </div>
+
+            <div class="row mt-3">
+                <div class=" col-lg-6 col-12 mt-3">
+                    <label for="{{ticket_form.image.is_for_label}}">
+                        {{ticket_form.image.label_tag}}
+                    </label>
+                    {{ticket_form.image}}
+                </div><br>
+                <div class=" col-lg-6 col-12 mt-3" class="type_of_problem_input">
+                    <label for="{{ticket_form.type_of_problem.is_for_label}}" id="type_of_problem" >
+                        {{ticket_form.type_of_problem.label_tag}}
+                    </label>
+                    {{ticket_form.type_of_problem}}
+                </div>
+            </div>
+            {% csrf_token %}
+            <div class="row-9">
+                <div class="col-">
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

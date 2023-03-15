@@ -1,0 +1,125 @@
+<br>
+<hr>
+<div class="row">
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <h5 class="card-title">Total Ticket</h5>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;"><a href="{% url 'all_tickets' %}">{{total_ticket}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <div class="card-title">
+                        <h5 class="card-title"> Ticket Closed</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: rgb(0, 0, 0);"><a href="{% url 'close_tickets' %}">{{ticket_closed}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <div class="card-title">
+                        <h5 class="card-title"> Ticket Open</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;">
+                       <a href="{% url 'open_tickets' %}">{{ticket_open}}</a> 
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <h5 class="card-title">Ticket Reopened</h5>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;"><a href="{% url 'reopen_tickets' %}">{{ticket_reopened}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <div class="card-title">
+                        <h5 class="card-title"> Ticket Resolved </h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;"><a href="{% url 'resolved_tickets'%}">{{ticket_resolved}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <div class="card-title">
+                        <h5 class="card-title"> Nidan Tickets</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;"><a href="{% url 'api_nidan' %}">{{nidan_tickets}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+</div>
+<div class="row">
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <div class="card-title">
+                        <h5 class="card-title"> Nidan Solved</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;"><a href="{% url 'nidan_solved_data' %}">{{nidan_solved}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <div class="card-title">
+                        <h5 class="card-title"> Nidan Pending</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;"><a href="{% url 'nidan_pending_data'%}">{{nidan_pending}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>

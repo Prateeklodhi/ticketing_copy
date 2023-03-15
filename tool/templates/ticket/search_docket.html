@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="mt-5 col-6">
+        <form class="form-inline my-2 my-lg-0" id="searching-input" action="{% url 'api_nidan' %}">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+            <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search" />
+        </form>                                                         
+    </div>
+    <div class="col-6 mt-5 text-right">
+        <form action=""class='form-inline my-2 my-lg-0'>
+            <a href="{% url 'generate_nidan_pdf' %}" class="btn btn-success"> Download PDF </a>
+        </form>
+    </div>
+</div>

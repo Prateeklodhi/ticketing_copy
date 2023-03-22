@@ -22,6 +22,7 @@ class Operator(models.Model):
     def __str__(self) -> str:
         return str(self.user)
 
+    
 
 class AreaProjectManager(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,null=True,related_name='ticket_APM')
@@ -102,6 +103,21 @@ class Ticket(models.Model):
     def __str__(self) -> str:
         return self.title+" "+self.first_name+" "+self.last_name
 
+    def to_dict(self):
+        return{
+            'Created_by':self.created_by,
+            'first_name':self.first_name,
+            'last_name':self.last_name,
+            'contact':self.contact,
+            'title':self.title,
+            'created':self.created,
+            'updated':self.updated,
+            'description':self.description,
+            'status':self.status,
+            'priority':self.priority,
+            'image':self.image,
+            'type_of_problem':self.type_of_problem,
+        }
 
 class NidanTicket(models.Model):
     STATUS = (
@@ -132,3 +148,20 @@ class NidanTicket(models.Model):
     
     def __str__(self) -> str:
         return self.docket_number+' '+self.citizen_name
+
+    def to_dict(self):
+        return{
+           'docket_number':self.docket_number,
+           'citizen_name':self.citizen_name,
+           'phone':self.phone,
+           'address':self.address,
+           'email':self.email,
+           'municipality':self.municipality,
+           'section':self.section,
+           'message':self.message,
+           'status':self.status,
+           'grievance_remark':self.grievance_remark,
+           'remark':self.remark,
+           'created_date':self.created_date,
+           'updated_date':self.updated_date
+        }

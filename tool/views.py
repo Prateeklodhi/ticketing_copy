@@ -15,7 +15,9 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-import weasyprint
+import csv
+from django.utils import timezone
+# import weasyprint
 import datetime
 # Create your views here.
 @unauthorized_user
@@ -183,14 +185,29 @@ def api_nidan(request):  # to retrive all the nidan api data and store it in to 
 #     workbook.save(response)
 #     return response
 
+# @login_required(login_url='login')
+# def generate_nidan_all_pdf(request):
+#     nidan_tickets = NidanTicket.objects.all()
+#     current_date = datetime.date.today()
+#     html = render_to_string('ticket/PDFs/nidanPDF.html',{'nidan_tickets':nidan_tickets,'current_date': current_date})
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition']=f'filename=nidan.pdf'
+#     weasyprint.HTML(string=html).write_pdf(response,stylesheets=[weasyprint.CSS(settings.STATIC_ROOT/'css/pdf.css')])
+#     return response
 @login_required(login_url='login')
-def generate_nidan_all_pdf(request):
-    nidan_tickets = NidanTicket.objects.all()
-    current_date = datetime.date.today()
-    html = render_to_string('ticket/PDFs/nidanPDF.html',{'nidan_tickets':nidan_tickets,'current_date': current_date})
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition']=f'filename=nidan.pdf'
-    weasyprint.HTML(string=html).write_pdf(response,stylesheets=[weasyprint.CSS(settings.STATIC_ROOT/'css/pdf.css')])
+def generateNidanExcel(request):
+    response = HttpResponse(content='text/csv')
+    date = timezone.datetime.now()
+    print(date)
+    response['Content-Disposition']='attechment; filename="TicketList.csv"'
+    writer.writerow('')
+    writer = csv.writer(response)
+    header = ['docket_number','citizen_name','phone','address','email','municipality','section','message','status','grievance_remark','remark','created_date','updated_date']
+    writer.writerow(header)
+    nidan_ticket = NidanTicket.objects.all()
+    tickets = nidan_ticket.values_list('docket_number','citizen_name','phone','address','email','municipality','section','message','status','grievance_remark','remark','created_date','updated_date')
+    for item in tickets:
+        writer.writerow(item)
     return response
 
 # @login_required(login_url='login')
@@ -419,17 +436,37 @@ def closeticketslist(request):
     return render(request, 'ticket/close_tickets.html', dic)
 
 
+# @login_required(login_url='login')
+# def generate_ticket_all_pdf(request):
+    # if str(request.user.groups.all()[0]) == 'admin':
+    #     tickets_object = Ticket.objects.all()
+    # if str(request.user.groups.all()[0]) == 'operator':
+    #     tickets_object = request.user.ticket_operator.ticket_set.all()
+#     current_date = datetime.date.today()
+#     first_name = request.user.first_name
+#     last_name =request.user.last_name 
+#     html = render_to_string('ticket/PDFs/ticketPDF.html',{'tickets':tickets_object,'current_date':current_date,'first_name':first_name,'last_name':last_name})
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition']=f'filename=tickets.pdf'
+#     weasyprint.HTML(string=html).write_pdf(response,stylesheets=[weasyprint.CSS(settings.STATIC_ROOT/'css/pdf.css')])
+#     return response
+
 @login_required(login_url='login')
-def generate_ticket_all_pdf(request):
+def generateTicketExcel(request):
+    response = HttpResponse(content='')
+    date = timezone.datetime.now()
+    print(date)
+    response['Content-Disposition']='attechment; filename="TicketList.csv"'
+    writer = csv.writer(response)
+    header = ['created_by','first_name','last_name','contact','title','created','updated','description','status','priority','image','type_of_problem']
+    writer.writerow(header)
     if str(request.user.groups.all()[0]) == 'admin':
         tickets_object = Ticket.objects.all()
     if str(request.user.groups.all()[0]) == 'operator':
         tickets_object = request.user.ticket_operator.ticket_set.all()
-    current_date = datetime.date.today()
-    first_name = request.user.first_name
-    last_name =request.user.last_name 
-    html = render_to_string('ticket/PDFs/ticketPDF.html',{'tickets':tickets_object,'current_date':current_date,'first_name':first_name,'last_name':last_name})
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition']=f'filename=tickets.pdf'
-    weasyprint.HTML(string=html).write_pdf(response,stylesheets=[weasyprint.CSS(settings.STATIC_ROOT/'css/pdf.css')])
+
+    tickets = tickets_object.values_list('created_by','first_name','last_name','contact','title','created','updated','description','status','priority','image','type_of_problem')
+    for item in tickets:
+        writer.writerow(item)
     return response
+

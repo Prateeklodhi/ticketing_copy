@@ -196,12 +196,13 @@ def api_nidan(request):  # to retrive all the nidan api data and store it in to 
 #     return response
 @login_required(login_url='login')
 def generateNidanExcel(request):
-    response = HttpResponse(content='text/csv')
+    response = HttpResponse(content='')
     date = timezone.datetime.now()
     print(date)
     response['Content-Disposition']='attechment; filename="TicketList.csv"'
-    writer.writerow('')
+   
     writer = csv.writer(response)
+    writer.writerow([date,])
     header = ['docket_number','citizen_name','phone','address','email','municipality','section','message','status','grievance_remark','remark','created_date','updated_date']
     writer.writerow(header)
     nidan_ticket = NidanTicket.objects.all()

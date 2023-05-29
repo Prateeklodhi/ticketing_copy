@@ -115,6 +115,21 @@ class Ticket(models.Model):
             'type_of_problem': self.type_of_problem.name if self.type_of_problem else '',
         }
 
+    def to_dict(self):
+        return{
+            'Created_by':self.created_by,
+            'first_name':self.first_name,
+            'last_name':self.last_name,
+            'contact':self.contact,
+            'title':self.title,
+            'created':self.created,
+            'updated':self.updated,
+            'description':self.description,
+            'status':self.status,
+            'priority':self.priority,
+            'image':self.image,
+            'type_of_problem':self.type_of_problem,
+        }
 
 class NidanTicket(models.Model):
     STATUS = (

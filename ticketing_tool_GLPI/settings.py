@@ -15,8 +15,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 import os
-os.environ['PATH'] += ';' + 'C:\\msys64\\mingw64\\bin'  # replace the path with the actual path to your MSYS2 installation
-os.environ['GI_TYPELIB_PATH'] = 'C:\\msys64\\mingw64\\lib\\girepository-1.0'  # replace the path with the actual path to your MSYS2 installation
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -27,18 +25,17 @@ SECRET_KEY = 'django-insecure-f87fpt4p9cfq3b(1r!wx&h6b+!nb-)i2uac5l)aik$ufrdqv*=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.7','127.0.0.1']
+ALLOWED_HOSTS = ['gloitelticketing.gloitel.in','192.168.1.7','127.0.0.1']
 
 # Application definition
 
 INSTALLED_APPS = [
-    
+    'tool.apps.ToolConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tool.apps.ToolConfig',
     'django.contrib.admin',
     'phonenumber_field',
     'rest_framework',
@@ -59,7 +56,7 @@ ROOT_URLCONF = 'ticketing_tool_GLPI.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR  / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,6 +82,17 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         # 'ENGINE': 'mysql.connector.django',
+#         'NAME': 'gloitelticketingDB',
+#         'USER': 'root',
+#         'PASSWORD': 'admin@#@!',
+#         'HOST':'localhost',
+#         'PORT':'3306',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -105,13 +113,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Email settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'gloitelticketing@gmail.com'
-EMAIL_HOST_PASSWORD = 'hixnuqvclbjjdcgy'
-
+EMAIL_HOST_PASSWORD = 'egyaddbpmfotyqek'
+EMAIL_USE_TLS =False
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -125,11 +133,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+
 PHONENUMBER_DEFAULT_REGION = 'IN'
-STATIC_ROOT = BASE_DIR / 'static/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media/images')
-STATIC_URL = 'static/'
-MEDIA_URL = 'media/'
+STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
+MEDIA_URL = '/media/'
+    
 
 
 # Default primary key field type

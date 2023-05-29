@@ -15,7 +15,9 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-import weasyprint
+import csv
+from django.utils import timezone
+# import weasyprint
 import datetime
 # Create your views here.
 @unauthorized_user
@@ -27,9 +29,7 @@ def loginuser(request):
         if user is not None:
             login(request, user)
             if user.groups.filter(name='apm'):
-                    print('Here I am in APM Block')
-                    messages.success(
-                        request, 'Welcome, you have been logged in successfully.')
+                    messages.success(request, 'Welcome, you have been logged in successfully.')
                     return redirect('apm_dashboard')
             else:
                     print('Here I am in Operator And Admin Block')
@@ -62,7 +62,7 @@ def registeruser(request):
             send_mail(
                 ('Gloitel Ticketing tool credential of '+first+''+last+'.'),
                 str('Hey '+first+''+last+'. Your username is ' +
-                    username+' and your password is '+password+'.'+' Login to 192.168.1.7:8000'),
+                    username+' and your password is '+password+'.'+' Login to gloitelticketing.gloitel.in '),
                 'gloitelticketing@gmail.com',
                 [email],
                 fail_silently=False,
@@ -183,14 +183,30 @@ def api_nidan(request):  # to retrive all the nidan api data and store it in to 
 #     workbook.save(response)
 #     return response
 
+# @login_required(login_url='login')
+# def generate_nidan_all_pdf(request):
+#     nidan_tickets = NidanTicket.objects.all()
+#     current_date = datetime.date.today()
+#     html = render_to_string('ticket/PDFs/nidanPDF.html',{'nidan_tickets':nidan_tickets,'current_date': current_date})
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition']=f'filename=nidan.pdf'
+#     weasyprint.HTML(string=html).write_pdf(response,stylesheets=[weasyprint.CSS(settings.STATIC_ROOT/'css/pdf.css')])
+#     return response
 @login_required(login_url='login')
-def generate_nidan_all_pdf(request):
-    nidan_tickets = NidanTicket.objects.all()
-    current_date = datetime.date.today()
-    html = render_to_string('ticket/PDFs/nidanPDF.html',{'nidan_tickets':nidan_tickets,'current_date': current_date})
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition']=f'filename=nidan.pdf'
-    weasyprint.HTML(string=html).write_pdf(response,stylesheets=[weasyprint.CSS(settings.STATIC_ROOT/'css/pdf.css')])
+def generateNidanExcel(request):
+    response = HttpResponse(content='')
+    date = timezone.datetime.now()
+    print(date)
+    response['Content-Disposition']='attechment; filename="TicketList.csv"'
+   
+    writer = csv.writer(response)
+    writer.writerow([date,])
+    header = ['docket_number','citizen_name','phone','address','email','municipality','section','message','status','grievance_remark','remark','created_date','updated_date']
+    writer.writerow(header)
+    nidan_ticket = NidanTicket.objects.all()
+    tickets = nidan_ticket.values_list('docket_number','citizen_name','phone','address','email','municipality','section','message','status','grievance_remark','remark','created_date','updated_date')
+    for item in tickets:
+        writer.writerow(item)
     return response
 
 # @login_required(login_url='login')
@@ -290,17 +306,17 @@ def index(request):
     if str(request.user.groups.all()[0]) == 'admin':
         tickets = Ticket.objects.all()
         total_ticket = tickets.count()
-        ticket_open = tickets.filter(status=1).count()
-        ticket_reopened = tickets.filter(status=2).count()
-        ticket_resolved = tickets.filter(status=3).count()
-        ticket_closed = tickets.filter(status=4).count()
+        ticket_open = tickets.filter(status='Open').count()
+        ticket_reopened = tickets.filter(status='Reopened').count()
+        ticket_resolved = tickets.filter(status='Resolved').count()
+        ticket_closed = tickets.filter(status='Closed').count()
     elif str(request.user.groups.all()[0]) == 'operator':
         tickets = request.user.ticket_operator.ticket_set.all()    
         total_ticket = tickets.count()
-        ticket_open = tickets.filter(status=1).count()
-        ticket_reopened = tickets.filter(status=2).count()
-        ticket_resolved = tickets.filter(status=3).count()
-        ticket_closed = tickets.filter(status=4).count()
+        ticket_open = tickets.filter(status='Open').count()
+        ticket_reopened = tickets.filter(status='Reopened').count()
+        ticket_resolved = tickets.filter(status='Resolved').count()
+        ticket_closed = tickets.filter(status='Closed').count()
     else:
         print('wrong')
     nidan_tickets = NidanTicket.objects.all().count()
@@ -325,12 +341,15 @@ def createTicket(request):
     ticket_form = TicketForm()
     if request.method == 'POST':
         ticket_form = TicketForm(request.POST)
+        typeofproblem = request.POST.get('type_of_problem')
+        category = request.POST.get('category')
+        print(typeofproblem+' '+category)
         if ticket_form.is_valid():
             new_form = ticket_form.save(commit=False)
             new_form.created_by = request.user.ticket_operator
             new_form.save()
             messages.success(request, 'Ticket created succfully for ' +
-                             str(new_form.first_name+" "+new_form.last_name+'.'))
+                             str(new_form.full_name+'.'))
             return redirect('all_tickets')
     return render(request, 'ticket/ticket.html', {'ticket_form': ticket_form})
 
@@ -350,7 +369,7 @@ def updateTicket(request, pk):
             new_form = ticket_form.save(commit=False)
             new_form.created_by = request.user.ticket_operator
             new_form.save()
-            messages.success(request, 'Ticket updated succfully for ' + str(new_form.first_name+" "+new_form.last_name+'.'))
+            messages.success(request, 'Ticket updated succfully for ' + str(new_form.full_name+'.'))
             return redirect('all_tickets')
     return render(request, 'ticket/ticket.html', {'ticket_form': ticket_form})
 
@@ -366,7 +385,7 @@ def allTicket(request):
         'query') != None else ''
     tickets = tickets_object.filter(
         Q(contact__icontains=query) |
-        Q(first_name__icontains=query)
+        Q(full_name__icontains=query)
     )
     return render(request, 'ticket/alltickets.html', {'tickets': tickets})
 
@@ -374,9 +393,9 @@ def allTicket(request):
 @login_required(login_url='login')
 def openticketslist(request):
     if str(request.user.groups.all()[0]) == 'admin':
-        tickets = tickets = Ticket.objects.filter(status=1)
+        tickets = tickets = Ticket.objects.filter(status='Open')
     if str(request.user.groups.all()[0]) == 'operator':
-        tickets = request.user.ticket_operator.ticket_set.filter(status=1)
+        tickets = request.user.ticket_operator.ticket_set.filter(status='Open')
     dic = {
         'tickets': tickets,
     }
@@ -386,9 +405,9 @@ def openticketslist(request):
 @login_required(login_url='login')
 def reopenticketslist(request):
     if str(request.user.groups.all()[0]) == 'admin':
-        tickets = tickets = Ticket.objects.filter(status=2)
+        tickets = tickets = Ticket.objects.filter(status='Reopened')
     if str(request.user.groups.all()[0]) == 'operator':
-        tickets = request.user.ticket_operator.ticket_set.filter(status=2)
+        tickets = request.user.ticket_operator.ticket_set.filter(status='Reopened')
     dic = {
         'tickets': tickets,
     }
@@ -398,9 +417,9 @@ def reopenticketslist(request):
 @login_required(login_url='login')
 def resolvedticketslist(request):
     if str(request.user.groups.all()[0]) == 'admin':
-        tickets = tickets = Ticket.objects.filter(status=3)
+        tickets = tickets = Ticket.objects.filter(status='Resolved')
     if str(request.user.groups.all()[0]) == 'operator':
-        tickets = request.user.ticket_operator.ticket_set.filter(status=3)
+        tickets = request.user.ticket_operator.ticket_set.filter(status='Resolved')
     dic = {
         'tickets': tickets,
     }
@@ -410,26 +429,68 @@ def resolvedticketslist(request):
 @login_required(login_url='login')
 def closeticketslist(request):
     if str(request.user.groups.all()[0]) == 'admin':
-        tickets = tickets = Ticket.objects.filter(status=4)
+        tickets = tickets = Ticket.objects.filter(status='Closed')
     if str(request.user.groups.all()[0]) == 'operator':
-        tickets = request.user.ticket_operator.ticket_set.filter(status=4)
+        tickets = request.user.ticket_operator.ticket_set.filter(status='Closed')
     dic = {
         'tickets': tickets,
     }
     return render(request, 'ticket/close_tickets.html', dic)
 
 
+# @login_required(login_url='login')
+# def generate_ticket_all_pdf(request):
+    # if str(request.user.groups.all()[0]) == 'admin':
+    #     tickets_object = Ticket.objects.all()
+    # if str(request.user.groups.all()[0]) == 'operator':
+    #     tickets_object = request.user.ticket_operator.ticket_set.all()
+#     current_date = datetime.date.today()
+#     first_name = request.user.first_name
+#     last_name =request.user.last_name 
+#     html = render_to_string('ticket/PDFs/ticketPDF.html',{'tickets':tickets_object,'current_date':current_date,'first_name':first_name,'last_name':last_name})# tickets = tickets_object.values_list('created_by__name','full_name','category__name','contact','title','created','updated','description','status','priority','image','type_of_problem__name')
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition']=f'filename=tickets.pdf'
+#     weasyprint.HTML(string=html).write_pdf(response,stylesheets=[weasyprint.CSS(settings.STATIC_ROOT/'css/pdf.css')])
+#     return response
 @login_required(login_url='login')
-def generate_ticket_all_pdf(request):
+def generateTicketExcel(request):
+    response = HttpResponse(content='')
+    date = timezone.datetime.now()
+    print(date)
+    today = datetime.date.today()
+    filname = f"Ticket_Data_{today}.csv"
+    response['Content-Disposition']=f'attechment; filename="{filname}"'
+    writer = csv.writer(response)
+    header = ['created_by','full_name','category','contact','title','created','updated','description','status','priority','image','type_of_problem']
+    writer.writerow(header)
+    # if str(request.user.groups.all()[0]) == 'admin':
+    #     tickets_object = Ticket.objects.all()
+    # if str(request.user.groups.all()[0]) == 'operator':
+    #     tickets_object = request.user.ticket_operator.ticket_set.all()
     if str(request.user.groups.all()[0]) == 'admin':
-        tickets_object = Ticket.objects.all()
-    if str(request.user.groups.all()[0]) == 'operator':
-        tickets_object = request.user.ticket_operator.ticket_set.all()
-    current_date = datetime.date.today()
-    first_name = request.user.first_name
-    last_name =request.user.last_name 
-    html = render_to_string('ticket/PDFs/ticketPDF.html',{'tickets':tickets_object,'current_date':current_date,'first_name':first_name,'last_name':last_name})
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition']=f'filename=tickets.pdf'
-    weasyprint.HTML(string=html).write_pdf(response,stylesheets=[weasyprint.CSS(settings.STATIC_ROOT/'css/pdf.css')])
+        tickets = Ticket.objects.all()
+    elif str(request.user.groups.all()[0]) == 'operator':
+        tickets = request.user.ticket_operator.ticket_set.all()
+    else:
+        tickets = Ticket.objects.none()
+    
+    date_range_start = datetime.datetime.now() - datetime.timedelta(days=1)
+    tickets = tickets.filter(created__gte=date_range_start)
+    for ticket in tickets:
+        row = [
+            ticket.created_by.first_name if ticket.created_by else '',
+            ticket.full_name,
+            ticket.category.name if ticket.category else '',
+            str(ticket.contact),
+            ticket.title,
+            ticket.created,
+            ticket.updated,
+            ticket.description,
+            ticket.status,
+            ticket.priority,
+            str(ticket.image) if ticket.image else '',
+            ticket.type_of_problem.name if ticket.type_of_problem else '',
+        ]
+        writer.writerow(row)
     return response
+

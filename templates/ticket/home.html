@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+{% block title %}
+Home
+{% endblock title %}
+
+{% block link %}
+{% endblock link %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+        <div class="alert alert-warning d-flex align-items-center message" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:">
+                <use xlink:href="#exclamation-triangle-fill" />
+            </svg>
+            <div>
+                {{message}}
+            </div>
+        </div>
+        {% endif %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <div class="alert alert-success d-flex align-items-center message" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                <use xlink:href="#check-circle-fill" />
+            </svg>
+            <div>
+                {{message}}
+            </div>
+        </div>
+        {% endif %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <div class="alert alert-danger d-flex align-items-center message" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                <use xlink:href="#check-circle-fill" />
+            </svg>
+            <div>
+                {{message}}
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+<br>
+<hr>
+<div class="row">
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <h5 class="card-title">Total Ticket</h5>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;"><a href="{% url 'all_tickets' %}">{{total_ticket}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <div class="card-title">
+                        <h5 class="card-title"> Ticket Closed</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: rgb(0, 0, 0);"><a href="{% url 'close_tickets' %}">{{ticket_closed}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <div class="card-title">
+                        <h5 class="card-title"> Ticket Open</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;">
+                       <a href="{% url 'open_tickets' %}">{{ticket_open}}</a> 
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <h5 class="card-title">Ticket Reopened</h5>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;"><a href="{% url 'reopen_tickets' %}">{{ticket_reopened}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <div class="card-title">
+                        <h5 class="card-title"> Ticket Resolved </h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;"><a href="{% url 'resolved_tickets'%}">{{ticket_resolved}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <div class="card-title">
+                        <h5 class="card-title"> Nidan Tickets</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;"><a href="{% url 'api_nidan' %}">{{nidan_tickets}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+</div>
+<div class="row">
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <div class="card-title">
+                        <h5 class="card-title"> Nidan Solved</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;"><a href="{% url 'nidan_solved_data' %}">{{nidan_solved}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-header" style="background-color: rgb(10, 75, 75);">
+                    <div class="card-title">
+                        <h5 class="card-title"> Nidan Pending</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: black;"><a href="{% url 'nidan_pending_data'%}">{{nidan_pending}}</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<h3 class="text-center">Chart View</h3>
+
+    <div class="row">
+    
+<div id="main_chart" style="width: 100%;height:450px;"></div>
+<input type="hidden" id="total-ticket" value="{{total_ticket}}">
+<input type="hidden" id="ticket-open" value="{{ticket_open}}">
+<input type="hidden" id="ticket-resolved" value="{{ticket_resolved}}">
+<input type="hidden" id="ticket-reopened" value="{{ticket_reopened}}">
+<input type="hidden" id="ticket-closed" value="{{ticket_closed}}">
+<input type="hidden" id="nidan-tickets" value="{{nidan_tickets}}">
+<input type="hidden" id="nidan-pending" value="{{nidan_pending}}">
+<input type="hidden" id="nidan-solved" value="{{nidan_solved}}">
+
+<script type="text/javascript">
+let totalcount = parseInt(document.getElementById('total-ticket').value);
+let ticketopen = parseInt(document.getElementById('ticket-open').value);
+let ticketresolved = parseInt(document.getElementById('ticket-resolved').value);
+let ticketreopened = parseInt(document.getElementById('ticket-reopened').value);
+let ticketclosed = parseInt(document.getElementById('ticket-closed').value);
+let nidantickets = parseInt(document.getElementById('nidan-tickets').value);
+let nidanpending = parseInt(document.getElementById('nidan-pending').value);
+let nidansolved = parseInt(document.getElementById('nidan-solved').value);
+var chartDom = document.getElementById('main_chart');
+var myChart = echarts.init(chartDom);
+var option;
+
+option = {
+  xAxis: {
+    type: 'category',
+    data: ['Total', 'Open', 'Resolved', 'Reopen', 'Closed','Nidan Tickets','Nidan Solved','Nidan Pending']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data: [totalcount,ticketopen,ticketresolved,ticketreopened,ticketclosed,nidantickets,nidansolved,nidanpending],
+      type: 'bar'
+    }
+  ]
+};
+
+option && myChart.setOption(option);
+</script>
+
+    </div>
+    <hr>
+    <div class="row">  
+    
+<div id="main_piechart" style="width:100%;height:450px;"></div>
+<input type="hidden" id="total-ticket" value="{{total_ticket}}">
+<input type="hidden" id="ticket-open" value="{{ticket_open}}">
+<input type="hidden" id="ticket-resolved" value="{{ticket_resolved}}">
+<input type="hidden" id="ticket-reopened" value="{{ticket_reopened}}">
+<input type="hidden" id="ticket-closed" value="{{ticket_closed}}">
+<input type="hidden" id="nidan-tickets" value="{{nidan_tickets}}">
+<input type="hidden" id="nidan-pending" value="{{nidan_pending}}">
+<input type="hidden" id="nidan-solved" value="{{nidan_solved}}">
+
+<script type="text/javascript">
+var chartDom = document.getElementById('main_piechart');
+var myChart = echarts.init(chartDom);
+var option;
+option = {
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    top: '5%',
+    left: 'center'
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: ['40%', '70%'],
+      avoidLabelOverlap: false,
+      itemStyle: {
+        borderRadius: 10,
+        borderColor: '#fff',
+        borderWidth: 2
+      },
+      label: {
+        show: false,
+        position: 'center'
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: 40,
+          fontWeight: 'bold'
+        }
+      },
+      labelLine: {
+        show: false
+      },
+      data: [
+        { value: totalcount, name: 'Total Count' },
+        { value: ticketopen, name: 'Open Tickets' },
+        { value: ticketresolved, name: 'Resolved Tickets' },
+        { value: ticketreopened, name: 'Reopened Tickets' },
+        { value: ticketclosed, name: 'Closed Tickets' },
+        { value: nidantickets, name: 'Nidan Tickets' },
+        { value: nidansolved, name: 'Nidan Solved' },
+        { value: nidanpending, name: 'Nidan Pending' },
+      ]
+    }
+  ]
+};
+
+option && myChart.setOption(option);
+</script>
+
+    </div>
+
+{% endblock content %}
+
+{% block script %}
+{% endblock script%}    

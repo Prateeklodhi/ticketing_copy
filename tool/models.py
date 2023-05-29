@@ -4,6 +4,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 
+
 class Operator(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,null=True,related_name='ticket_operator')
     first_name = models.CharField(max_length=20,null=True,blank=False)
@@ -22,6 +23,7 @@ class Operator(models.Model):
     def __str__(self) -> str:
         return str(self.user)
 
+    
 
 class AreaProjectManager(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,null=True,related_name='ticket_APM')
@@ -45,62 +47,73 @@ class AreaProjectManager(models.Model):
         return str(self.user)
 
 
+class TypeOfProblem(models.Model):
+    name = models.CharField(max_length=100,null=True,blank=True)
+    def __str__(self) -> str:
+        return self.name
+
+class Category(models.Model):
+    name = models.CharField(max_length=100,null=True,blank=True)
+    def __str__(self) -> str:
+        return self.name
 
 class Ticket(models.Model):
-    OPEN_STATUS = 1 
-    REOPENED_STATUS = 2
-    RESOLVED_STATUS = 3
-    CLOSED_STATUS = 4
-    DUPLICATE_STATUS = 5
-
     STATUS_CHOICES = (
-        (OPEN_STATUS, _('Open')),
-        (REOPENED_STATUS, _('Reopened')),
-        (RESOLVED_STATUS, _('Resolved')),
-        (CLOSED_STATUS, _('Closed')),
-        (DUPLICATE_STATUS, _('Duplicate'))
+        ('Open', _('Open')),
+        ('Reopened', _('Reopened')),
+        ('Resolved', _('Resolved')),
+        ('Closed', _('Closed')),
     )
-
     PRIORITY_CHOICES = (
-        (1, _('Critical')),
-        (2, _('High')),
-        (3, _('Normal')),
-        (4, _('Low')),
-        (5, _('Very Low')),
+        ('Critical', _('Critical')),
+        ('High', _('High')),
+        ('Normal', _('Normal')),
+        ('Low', _('Low')),
+        ('Very Low', _('Very Low')),
     )
-
-    MMU = 1
-    WEBSITE = 2
-    TREATMENT = 3
-    OTHER = 4
-
-    TYPE_OF_PROBLEM = (
-        (MMU,_('MMU')),
-        (WEBSITE,_('Website')),
-        (TREATMENT,_('Treatment')),
-        (OTHER,_('Other')),
-    )
+ 
     created_by = models.ForeignKey(Operator,on_delete=models.SET_NULL,null=True,blank=True)
-    first_name = models.CharField(max_length=25,blank=False,null=False)
-    last_name = models.CharField(max_length=25,null=False,blank=False)
+    full_name = models.CharField(max_length=250,blank=False,null=False)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
     contact = PhoneNumberField(region='IN',max_length=13)
     title = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    status = models.IntegerField(choices=STATUS_CHOICES,default=OPEN_STATUS)
+    status = models.CharField(choices=STATUS_CHOICES,default='Open',max_length=60)
     description = models.TextField(null=True,blank=True)
-    priority = models.IntegerField(choices=PRIORITY_CHOICES,default=3,blank=3)
+    priority = models.CharField(choices=PRIORITY_CHOICES,default='Normal',max_length=60)
     image = models.ImageField(upload_to='TicketProblem/%y/%m/%d/',null=True,blank=True)
-    type_of_problem = models.IntegerField(choices=TYPE_OF_PROBLEM,default=OTHER)
+    type_of_problem = models.ForeignKey(TypeOfProblem,on_delete=models.CASCADE,null=True)
 
     class Meta:
         ordering = ['-created']
         indexes = [
             models.Index(fields=['created',])
         ]
-
+        
     def __str__(self) -> str:
-        return self.title+" "+self.first_name+" "+self.last_name
+        return self.title+" "+self.full_name
+    
+    def to_dict(self):
+        return{
+            'created_by': self.created_by.name if self.created_by else '',
+            # 'created_by':self.created_by,
+            'full_name':self.first_name,
+            # 'category':self.category,
+            'category': self.category.name if self.category else '',
+            # 'contact':self.contact,
+            'contact': str(self.contact),
+            'title':self.title,
+            'created':self.created,
+            'updated':self.updated,
+            'description':self.description,
+            'status':self.status,
+            'priority':self.priority,
+            # 'image':self.image,
+            'image': str(self.image) if self.image else '',
+            # 'type_of_problem':self.type_of_problem,
+            'type_of_problem': self.type_of_problem.name if self.type_of_problem else '',
+        }
 
 
 class NidanTicket(models.Model):
@@ -131,4 +144,21 @@ class NidanTicket(models.Model):
         ]
     
     def __str__(self) -> str:
-        return self.docket_number+' '+self.citizen_name
+        return str(self.docket_number+' '+self.citizen_name)
+
+    def to_dict(self):
+        return{
+           'docket_number':self.docket_number,
+           'citizen_name':self.citizen_name,
+           'phone':self.phone,
+           'address':self.address,
+           'email':self.email,
+           'municipality':self.municipality,
+           'section':self.section,
+           'message':self.message,
+           'status':self.status,
+           'grievance_remark':self.grievance_remark,
+           'remark':self.remark,
+           'created_date':self.created_date,
+           'updated_date':self.updated_date
+        }

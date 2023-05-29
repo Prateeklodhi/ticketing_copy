@@ -1,0 +1,46 @@
+Metadata-Version: 2.1
+Name: akismet
+Version: 1.2.1
+Summary: A Python interface to the Akismet spam-filtering API.
+Home-page: https://github.com/ubernostrum/akismet
+Author: Michael Foord and James Bennett
+Author-email: james@b-list.org
+License: BSD 3-Clause
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Utilities
+Requires-Python: >=3.7
+License-File: LICENSE
+Requires-Dist: requests
+
+.. -*-restructuredtext-*-
+
+.. image:: https://github.com/ubernostrum/akismet/workflows/CI/badge.svg
+   :alt: CI status image
+   :target: https://github.com/ubernostrum/akismet/actions?query=workflow%3ACI
+
+``akismet`` is a Python library wrapping `the Wordpress Akismet
+spam-detection service <https://akismet.com/>`_. All methods of the
+Akismet API are supported:
+
+* Checking comments for spam
+
+* Reporting comments incorrectly classified as not spam
+
+* Reporting comments incorrectly classified as spam
+
+Use of this module requires an Akismet API key (which must be obtained
+from the Akismet service).
+
+The Python ``akismet`` module was originally written by Michael Foord.
+
+Full documentation is `available online <http://akismet.readthedocs.io/>`_.

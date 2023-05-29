@@ -41,7 +41,8 @@ class TicketForm(ModelForm):
         fields = '__all__'
         exclude =['creatd_by',]
         widgets = {
-            'description':forms.Textarea(attrs={'cols': '60', 'rows': '3','description':'description'})
+            'description':forms.Textarea(attrs={'cols': '60', 'rows': '3','description':'description'}),
+          
         }
 
         

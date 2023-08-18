@@ -19,7 +19,7 @@ from django.utils import timezone
 import datetime 
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from .utils import daterangeTicketData
-
+from django.utils.timezone import now
 @unauthorized_user
 def loginuser(request):
     if request.method == 'POST':
@@ -107,10 +107,9 @@ def userSettings(request):
 # @allowed_users(allowed_roles=['operator'])
 def api_nidan(request):  # to retrive all the nidan api data and store it in to the data base if data already exsists it drop the save function and if new data will arrive it will take the data as pending data and save it into the data base.
     message_flag = None
-    response_data = None
     if request.method == 'GET':
-        # url = 'https://uat3.cgg.gov.in/cggrievancemmu/getDocketDetails'
-        url = 'https://cggrievancemmu.cgg.gov.in/getDocketDetails'
+        url = 'https://uat3.cgg.gov.in/cggrievancemmu/getDocketDetails'
+        # url = 'https://cggrievancemmu.cgg.gov.in/getDocketDetails'
         response = requests.get(url)
         data = response.json()
         response_data = data['data']
@@ -127,6 +126,7 @@ def api_nidan(request):  # to retrive all the nidan api data and store it in to 
                 message=glpi_client['message'],
                 subsection=glpi_client['subsection'],
                 status=glpi_client['status'],
+                call_start = glpi_client['callStart'],
                 grievance_remark=glpi_client['grievanceRemarks'],
             )
             try:
@@ -449,6 +449,7 @@ def closeticketslist(request):
 
 @login_required(login_url='login')
 def generateTicketExcel(request):
+    print(now())
     response = HttpResponse(content='')
     today = datetime.date.today()
     filname = f"Ticket_Data_{today}.csv"

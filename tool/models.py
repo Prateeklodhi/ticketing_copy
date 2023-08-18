@@ -148,6 +148,7 @@ class NidanTicket(models.Model):
     status = models.CharField(choices=STATUS,null=True,max_length=100,default='pending')
     grievance_remark = models.CharField(max_length=500,null=True)
     remark = models.TextField(null=True,blank=True)
+    call_start = models.CharField(max_length=30,null=True,blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 

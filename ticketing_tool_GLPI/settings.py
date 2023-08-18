@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-f87fpt4p9cfq3b(1r!wx&h6b+!nb-)i2uac5l)aik$ufrdqv*=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['gloitelticketing.gloitel.in','cggrievancemmu.cgg.gov.in']
+ALLOWED_HOSTS = ['gloitelticketing.gloitel.in','cggrievancemmu.cgg.gov.in','127.0.0.1']
 
 # Application definition
 

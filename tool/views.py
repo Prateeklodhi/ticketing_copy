@@ -107,7 +107,7 @@ def userSettings(request):
 # @allowed_users(allowed_roles=['operator'])
 def api_nidan(request):  # to retrive all the nidan api data and store it in to the data base if data already exsists it drop the save function and if new data will arrive it will take the data as pending data and save it into the data base.
     message_flag = None
-    if request.method == 'GET':
+    try:
         url = 'https://uat3.cgg.gov.in/cggrievancemmu/getDocketDetails'
         # url = 'https://cggrievancemmu.cgg.gov.in/getDocketDetails'
         response = requests.get(url)
@@ -134,6 +134,8 @@ def api_nidan(request):  # to retrive all the nidan api data and store it in to 
                 message_flag = True
             except:
                 message_flag = False
+    except:
+        pass
     if message_flag == True:
         messages.success(request, 'New data is arrived')
     else:
@@ -157,7 +159,6 @@ def generateNidanExcel(request):
     date = timezone.datetime.now()
     print(date)
     response['Content-Disposition']='attechment; filename="TicketList.csv"'
-   
     writer = csv.writer(response)
     writer.writerow([date,])
     header = ['docket_number','citizen_name','phone','address','email','municipality','section','message','status','grievance_remark','remark','created_date','updated_date']

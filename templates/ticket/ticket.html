@@ -3,8 +3,41 @@
 Ticket Details
 {% endblock title %}
 {% block content %}
+{% if messages %}
+{% for message in messages %}
+{% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+<div class="alert alert-warning d-flex align-items-center message" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:">
+        <use xlink:href="#exclamation-triangle-fill" />
+    </svg>
+    <div>
+        {{message}}
+    </div>
+</div>
+{% endif %}
+{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+<div class="alert alert-success d-flex align-items-center message" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+        <use xlink:href="#check-circle-fill" />
+    </svg>
+    <div>
+        {{message}}
+    </div>
+</div>
+{% endif %}
+{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+<div class="alert alert-danger d-flex align-items-center message" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+        <use xlink:href="#check-circle-fill" />
+    </svg>
+    <div>
+        {{message}}
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
 {% if ticket_form.errors %}
-
 <div class="alert alert-warning d-flex align-items-center" role="alert">
     <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:">
         <use xlink:href="#exclamation-triangle-fill" />
@@ -27,7 +60,7 @@ Ticket Details
         <h3>Add Ticket</h3>
     </div>
     <div class="row">
-        <form action="" method="Post" class="col mt-2 update_form">
+        <form action="" method="Post" class="col mt-2 update_form" enctype="multipart/form-data">
             <div class="row mt-3">
                 <div class="col-12 col-lg-6 mt-3 ">
                     <label for="{{ticket_form.full_name.is_for_label}}" class="col-6">

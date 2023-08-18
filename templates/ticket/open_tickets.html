@@ -38,41 +38,11 @@ All Tickets
         {% endif %}
     {% endfor %}
 {% endif %}
-<div class="row">
-    <div class="mt-5 col-6">
-        <form class="form-inline my-2 my-lg-0" id="searching-input" action="{% url 'all_tickets'%}">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
-            <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search" />
-        </form>                                                         
-    </div>
-    <div class="col-6 mt-5 text-right">
-        <form action=""class='form-inline my-2 my-lg-0'>
-            <a href="{% url 'generate_ticket_pdf' %}" class="btn btn-success"> Download PDF </a>
-        </form>
-    </div>
-</div>
 
-
+{% include 'ticket/ticketsearch.html' %}
 
 <div class="row mt-5" style="overflow-x:auto; ">
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link " href="{% url 'all_tickets' %}">All</a>
-          </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'open_tickets' %}">Open</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'resolved_tickets' %}">Resolved</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'reopen_tickets' %}">Reopened</a>
-        </li>
-        
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'close_tickets' %}">Closed</a>
-          </li>
-    </ul>
+    <!-- 
     <table class="table table-striped table-dark " style="height: 100px; overflow-y:hidden !important; ">
         <thead>
             <tr>
@@ -100,7 +70,27 @@ All Tickets
             </tr>
             {% endfor %}
         </tbody>
-    </table>
+    </table> -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link " href="{% url 'all_tickets' %}">All</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'open_tickets' %}">Open</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'resolved_tickets' %}">Resolved</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'reopen_tickets' %}">Reopened</a>
+        </li>
+        
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'close_tickets' %}">Closed</a>
+          </li>
+    </ul>
+    {% include 'ticket/tickettable.html' %}
+    {% include "ticket/paginator.html" with page=tickets %}
 </div>
 
 {% endblock content %}

@@ -77,8 +77,8 @@ class Ticket(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
     contact = PhoneNumberField(region='IN',max_length=13)
     title = models.CharField(max_length=200)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    updated = models.DateTimeField(auto_now=True,null=True,blank=True)
     status = models.CharField(choices=STATUS_CHOICES,default='Open',max_length=60)
     description = models.TextField(null=True,blank=True)
     priority = models.CharField(choices=PRIORITY_CHOICES,default='Normal',max_length=60)
@@ -153,7 +153,7 @@ class NidanTicket(models.Model):
 
 
     class Meta:
-        ordering = ['created_date']
+        ordering = ['-created_date']
         indexes = [
             models.Index(fields=['created_date',])
         ]

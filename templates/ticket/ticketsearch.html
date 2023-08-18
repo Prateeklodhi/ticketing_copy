@@ -1,15 +1,35 @@
-<div class="row">
-    <div class="mt-5 col-6">
-        <form class="form-inline my-2 my-lg-0" id="searching-input" action="{% url 'all_tickets'%}">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
-            <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search" />
-        </form>                                                         
+<div class="row justify-content-center align-items-center">
+    <div class="row col-3">
+        <div class="mt-5">
+            <form class="form-inline my-2 my-lg-0" id="searching-input" action="{% url 'all_tickets'%}">
+                <input class="form-control mr-sm-2" type="search" placeholder="Enter name" aria-label="Search" name="query">
+                <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search" />
+            </form>
+        </div>
     </div>
-    <div class="col-6 mt-5 text-right">
-        <form action=""class='form-inline my-2 my-lg-0'>
-            <a href="{% url 'generate_ticket_pdf' %}" class="btn btn-success"> Download PDF </a>
-        </form>
+    <div class="row col-9 justify-content-center align-items-center">
+        <div class="mt-5 justify-content-center align-items-center">
+            <form action="{% url 'generate_ticket_pdf' %}" class='form-inline my-2 my-lg-0' method="post">
+                <!-- <input type="datetime" name="startdate" id="" class="form-control mr-sm-2"> -->
+                {% csrf_token %}
+                <div class="m-3">
+                    <div class="dateHolder row">
+                        <label for="" class="mr-2">Startdate</label>
+                        <input type="date" name="startdate" class="citizenDate form-control mr-sm-2"  placeholder="YYYY/MM/DD" />
+                    </div>
+                </div>
+        
+                <div class="m-3">
+                    <div class="dateHolder row">
+                        <label for="" class="mr-2">Enddate</label>
+                        <input type="date" name="enddate" class="citizenDate form-control mr-sm-2"  placeholder="YYYY/MM/DD" />
+                    </div>
+                </div>
+                <div class="m-2">
+                <input type="submit"  class="btn btn-outline-success my-2 my-sm-0" value="Download Report">
+                </div>
+            </form>
+        </div>
     </div>
+     
 </div>
-
-

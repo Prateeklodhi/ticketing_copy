@@ -1,14 +1,46 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% include 'ticket\messages.html'%}
-
+{% if messages %}
+{% for message in messages %}
+{% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+<div class="alert alert-warning d-flex align-items-center message" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:">
+        <use xlink:href="#exclamation-triangle-fill" />
+    </svg>
+    <div>
+        {{message}}
+    </div>
+</div>
+{% endif %}
+{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+<div class="alert alert-success d-flex align-items-center message" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+        <use xlink:href="#check-circle-fill" />
+    </svg>
+    <div>
+        {{message}}
+    </div>
+</div>
+{% endif %}
+{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+<div class="alert alert-danger d-flex align-items-center message" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+        <use xlink:href="#check-circle-fill" />
+    </svg>
+    <div>
+        {{message}}
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
 <div class="row">
     <div class="col">
         <h3>Nidan Dockets </h3>
     </div>
 </div>
-    {% include 'ticket\search_docket.html'%}
+{% include 'ticket/search_docket.html' %}
 <br>
 <ul class="nav nav-tabs">
     <li class="nav-i">
@@ -30,7 +62,7 @@
                 <th scope="col">Docket No</th>
                 <th scope="col">Citizen Name</th>
                 <th scope="col">Phone</th>
-                <th scope="col">Message</th>
+                <th scope="col">Grievance Remark</th>
                 <th scope="col">Status</th>
                 <th scope="col">Created</th>
                 <th scope="col">Updated</th>
@@ -43,7 +75,7 @@
                     <td>{{nidan_ticket.docket_number}}</td> 
                     <td>{{nidan_ticket.citizen_name}}</td> 
                     <td>{{nidan_ticket.phone}}</td> 
-                    <td>{{nidan_ticket.message}}</td> 
+                    <td>{{nidan_ticket.grievance_remark}}</td> 
                     <td>{{nidan_ticket.status}}</td> 
                     <td>{{nidan_ticket.created_date}}</td>
                     <td>{{nidan_ticket.updated_date}}</td>

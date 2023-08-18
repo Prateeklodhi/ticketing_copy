@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-f87fpt4p9cfq3b(1r!wx&h6b+!nb-)i2uac5l)aik$ufrdqv*=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['gloitelticketing.gloitel.in','192.168.1.7','127.0.0.1']
+ALLOWED_HOSTS = ['gloitelticketing.gloitel.in','cggrievancemmu.cgg.gov.in']
 
 # Application definition
 
@@ -114,12 +114,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Email settings
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'localhost'
+EMAIL_PORT = 465
 EMAIL_HOST_USER = 'gloitelticketing@gmail.com'
-EMAIL_HOST_PASSWORD = 'egyaddbpmfotyqek'
+EMAIL_HOST_PASSWORD = 'gloitel@2023'
 EMAIL_USE_TLS =False
+EMAIL_USE_SSL = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -135,11 +136,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 PHONENUMBER_DEFAULT_REGION = 'IN'
-STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
-MEDIA_URL = '/media/'
-    
+import os   
+STATIC_URL = 'static/'
+MEDIA_URL = '/images/'
+STATICFILES_DIRS = [BASE_DIR / 'static']#LIST
+MEDIA_ROOT = os.path.join(BASE_DIR,'static/images')
+STATIC_ROOT = os.path.join(BASE_DIR , 'staticfiles')
 
 
 # Default primary key field type

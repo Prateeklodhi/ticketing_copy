@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import TicketForm, UserRegistrationForm, OperatorProfile, NidanForm, AreaProjectManagerForm
+from .forms import TicketForm, UserRegistrationForm, OperatorProfile, NidanForm, AreaProjectManagerForm,MMU,City
 from .models import Ticket, Operator, NidanTicket, AreaProjectManager
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
@@ -308,6 +308,14 @@ def createTicket(request):
             return redirect('create_ticket')
     return render(request, 'ticket/ticket.html', {'ticket_form': ticket_form})
 
+@login_required(login_url='login')
+def ajax_mmu_load(request):
+    city_id = request.GET.get('city')
+    mmus = MMU.objects.filter(city_id = city_id).order_by('name')
+    context ={
+        'mmus':mmus
+    }
+    return render(request,'ticket/dropdown.html',context)
 
 def deleteTicket(request):
     pass

@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Ticket,Operator,NidanTicket,AreaProjectManager
+from .models import Ticket,Operator,NidanTicket,AreaProjectManager,City,MMU
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -42,7 +42,17 @@ class TicketForm(ModelForm):
         exclude =['creatd_by',]
         widgets = {
             'description':forms.Textarea(attrs={'cols': '60', 'rows': '3','description':'description'}),
-          
         }
 
-        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args,**kwargs)
+        self.fields['mmus'].quertset = MMU.objects.none()
+
+        if 'city' in self.data:
+            try:
+                city_id = int(self.data.get('city'))
+                self.fields['mmus'].queryset = MMU.objects.filter(city_id = city_id).order_by('name')
+            except(ValueError,TypeError):
+                pass
+        elif self.instance.pk:
+            self.fields['mmus'].queryset = self.instance.city.mmus_set.order_by('name')

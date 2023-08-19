@@ -81,6 +81,8 @@ class Ticket(models.Model):
     updated = models.DateTimeField(auto_now=True,null=True,blank=True)
     status = models.CharField(choices=STATUS_CHOICES,default='Open',max_length=60)
     description = models.TextField(null=True,blank=True)
+    city = models.ForeignKey('City',on_delete=models.CASCADE,null=True,blank=True)
+    mmus = models.ForeignKey('MMU',on_delete=models.CASCADE,null=True,blank=True)
     priority = models.CharField(choices=PRIORITY_CHOICES,default='Normal',max_length=60)
     image = models.ImageField(upload_to='TicketProblem/%y/%m/%d/',null=True,blank=True)
     type_of_problem = models.ForeignKey(TypeOfProblem,on_delete=models.CASCADE,null=True)
@@ -130,6 +132,20 @@ class Ticket(models.Model):
             'image':self.image,
             'type_of_problem':self.type_of_problem,
         }
+    
+
+class City(models.Model):
+    name = models.CharField(max_length=200,null=True,blank=True)
+    def __str__(self) -> str:
+        return self.name
+
+
+class MMU(models.Model):
+    city = models.ForeignKey(City,on_delete=models.CASCADE,null=True,blank=True)
+    name = models.CharField(max_length=200,blank=True,null=True)
+    def __str__(self) -> str:
+        return self.name
+    
 
 class NidanTicket(models.Model):
     STATUS = (

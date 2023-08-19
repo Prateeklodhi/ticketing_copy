@@ -19,6 +19,7 @@ urlpatterns = [
     path('api-nidan/nidan-sovled-data/',views. nidan_solved_data,name='nidan_solved_data'),
     path('nidan-ticket-data/<int:pk>/',views.nidanTicketData,name='nidan_ticket_data'),
     path('edit-profile/',views.userSettings,name='settings'),
+    path('ajax-load-mmus',views.ajax_mmu_load,name='ajax_load_mmus'),
     path('all-tickets/', views.allTicket, name='all_tickets'),
     path('open-tickets/',views.openticketslist,name='open_tickets'),
     path('reopen-tickets/',views.reopenticketslist,name='reopen_tickets'),

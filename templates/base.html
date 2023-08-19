@@ -105,6 +105,21 @@
         }, 2000);
 
     </script>
+    <script>
+        $('#id_city').change(function(){
+            var url = $("#ticketform").attr("data-mmus-url");
+            var cityid = $(this).val();
+            $.ajax({
+                url:url,
+                data:{
+                    'city':cityid
+                },
+                success: function(data){
+                    $('#id_mmus').html(data);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

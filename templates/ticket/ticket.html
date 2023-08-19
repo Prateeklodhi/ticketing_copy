@@ -60,7 +60,7 @@ Ticket Details
         <h3>Add Ticket</h3>
     </div>
     <div class="row">
-        <form action="" method="Post" class="col mt-2 update_form" enctype="multipart/form-data">
+        <form method="Post" data-mmus-url="{% url 'ajax_load_mmus' %}" id ="ticketform" class="col mt-2 update_form" enctype="multipart/form-data">
             <div class="row mt-3">
                 <div class="col-12 col-lg-6 mt-3 ">
                     <label for="{{ticket_form.full_name.is_for_label}}" class="col-6">
@@ -119,6 +119,21 @@ Ticket Details
                     {{ticket_form.description}}
                 </div>
 
+            </div>
+<!-- =============================================================== -->
+            <div class="row mt-3">
+                <div class=" col-lg-6 col-12 mt-3">
+                    <label for="{{ticket_form.city.is_for_label}}">
+                        {{ticket_form.city.label}}
+                    </label>
+                    {{ticket_form.city}}
+                </div><br>
+                <div class=" col-lg-6 col-12 mt-3">
+                    <label for="{{ticket_form.mmus.is_for_label}}">
+                       MMU
+                    </label>
+                    {{ticket_form.mmus}}
+                </div>
             </div>
 <!-- ============================================================ -->
             <div class="row mt-3">
